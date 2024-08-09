@@ -1,10 +1,11 @@
 <template>
-  <form>
+  <form @submit.prevent="handleSubmit">
     <label for="email">Email:</label>
     <input type="email" id="email" required v-model="email">
 
     <label for="password">Password:</label>
     <input type="password" id="password" required v-model="password">
+    <div v-if="error">{{ error }}</div>
 
     <label>Role:</label>
         <select v-model="role">
@@ -39,6 +40,10 @@
         <label>Accept the term and condition</label>
     </div>
 
+    <div class="submit">
+        <button>submit</button>
+    </div>
+
   </form>
 
   <p>Email: {{ email }}</p>
@@ -59,7 +64,8 @@ export default {
             genre: [],
             tempSong: '',
             songs: [],
-            showSong: false
+            showSong: false,
+            error: ''
         }
     },
 
@@ -83,9 +89,15 @@ export default {
 
         deleteSong(song) {
             console.log(song)
-            this.songs = this.songs.filter((s)=> {
+            this.songs = this.songs.filter( (s)=> {
                 return s!==song
             })
+        },
+
+        handleSubmit() {
+            console.log("submit the form")
+            //check password
+            this.error = this.password.length > 5 ? '': 'password must be at least 6 letter'
         }
     }
 
@@ -142,5 +154,16 @@ input[type="checkbox"] {
     font-weight: bold;
     color: #777;
     cursor: pointer;
+}
+button {
+    background: #0b6dff;
+    border: 0;
+    padding: 10px 20px;
+    margin-top: 20px;
+    color: white;
+    border-radius: 20px;
+}
+.submit {
+    text-align: center;
 }
 </style>
